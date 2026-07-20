@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ng.linkbridge</groupId>
+  <artifactId>linkbridge-sdk</artifactId>
+  <!-- Kept in lockstep with the other SDKs (sdk-node package.json,
+       sdk-python pyproject.toml) — sdk-release.yml asserts equality. -->
+  <version>0.4.0</version>
+  <packaging>jar</packaging>
+
+  <name>Linkbridge Java SDK</name>
+  <description>Official Java SDK for the Linkbridge e-invoicing API: OAuth2 client-credentials auth, invoice submission, webhook management, and HMAC webhook signature verification.</description>
+  <url>https://github.com/linkbridge-systems/linkbridge-sdks</url>
+
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/linkbridge-systems/linkbridge-sdks</url>
+    <connection>scm:git:https://github.com/linkbridge-systems/linkbridge-sdks.git</connection>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>Linkbridge Engineering</name>
+      <organization>Linkbridge Systems</organization>
+      <organizationUrl>https://linkbridge.ng</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jackson.version>2.21.5</jackson.version>
+    <junit.version>5.11.4</junit.version>
+  </properties>
+
+  <dependencies>
+    <!-- The single runtime dependency. Java has no stdlib JSON; Jackson is
+         the de-facto standard in the enterprise stacks our integrators run
+         (Spring et al.), so in practice it adds nothing new to their tree. -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!-- Maven Central requires sources + javadoc jars and GPG signatures.
+         Kept in a profile so day-to-day `mvn verify` stays fast; the
+         publish pipeline activates it (see PUBLISHING.md). -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.3.1</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals><goal>jar-no-fork</goal></goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.11.2</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals><goal>jar</goal></goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- GPG signing (Central-mandatory). The passphrase comes from the
+               settings.xml server `gpg.passphrase` that actions/setup-java
+               writes when its `gpg-passphrase` input is set; loopback
+               pinentry lets gpg read it non-interactively in CI. Skip
+               locally with -Dgpg.skip=true. -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.8</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals><goal>sign</goal></goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Publishes to the Central Portal (central.sonatype.com). The
+               credentials come from the settings.xml server whose id matches
+               publishingServerId — written by actions/setup-java from its
+               server-id/server-username/server-password inputs. autoPublish
+               pushes through Portal validation without a manual release
+               click; the workflow pre-checks repo1 so re-runs are no-ops. -->
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.11.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+              <waitUntil>published</waitUntil>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

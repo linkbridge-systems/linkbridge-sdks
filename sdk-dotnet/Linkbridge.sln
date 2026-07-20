@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linkbridge", "src\Linkbridge\Linkbridge.csproj", "{0991B979-148A-4203-90B8-B253FD3F5BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linkbridge.Tests", "tests\Linkbridge.Tests\Linkbridge.Tests.csproj", "{A42F7A7C-A92D-45C5-A04D-60397C1D5061}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0991B979-148A-4203-90B8-B253FD3F5BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0991B979-148A-4203-90B8-B253FD3F5BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0991B979-148A-4203-90B8-B253FD3F5BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0991B979-148A-4203-90B8-B253FD3F5BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42F7A7C-A92D-45C5-A04D-60397C1D5061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42F7A7C-A92D-45C5-A04D-60397C1D5061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42F7A7C-A92D-45C5-A04D-60397C1D5061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42F7A7C-A92D-45C5-A04D-60397C1D5061}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
