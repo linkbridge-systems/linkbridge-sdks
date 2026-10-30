@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linkbridge"
+version = "0.4.0"
+description = "Official Python SDK for the Linkbridge e-invoicing API"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+authors = [{ name = "Linkbridge" }]
+keywords = ["linkbridge", "e-invoicing", "nrs", "fbr", "fiscalisation"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Office/Business :: Financial",
+]
+# Zero runtime dependencies — we deliberately use stdlib (urllib, hmac,
+# json, secrets) so the package installs cleanly into restricted
+# environments (Lambda layers, vendored merchant POS firmware, etc.).
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=7", "pytest-cov>=4"]
+
+[project.urls]
+Homepage = "https://docs.linkbridge.ng"
+Documentation = "https://docs.linkbridge.ng"
+Source = "https://github.com/linkbridge-systems/linkbridge-sdks/tree/main/sdk-python"
+Issues = "https://github.com/linkbridge-systems/linkbridge-sdks/issues"
+
+[tool.setuptools.packages.find]
+include = ["linkbridge*"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

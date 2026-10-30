@@ -1,0 +1,18 @@
+# oapi-codegen configuration for the Linkbridge Go SDK.
+#
+# We generate ONLY the types and a low-level client here. The
+# ergonomic wrapper (auth, retries, idempotency-key helper, webhook
+# signature verifier) lives in handwritten files at the package root
+# so that regenerating the spec never clobbers user-facing API.
+#
+# Regenerate with: ./tools/scripts/codegen-sdk-go.sh
+package: oapi
+output: client.gen.go
+generate:
+  models: true
+  client: true
+  embedded-spec: false
+output-options:
+  skip-prune: true
+compatibility:
+  always-prefix-enum-values: true

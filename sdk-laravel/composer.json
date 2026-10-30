@@ -1,0 +1,76 @@
+{
+    "name": "linkbridge/laravel",
+    "description": "Official Laravel integration for the LinkBridge e-invoicing API.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "homepage": "https://docs.linkbridge.ng",
+    "keywords": [
+        "linkbridge",
+        "laravel",
+        "e-invoicing",
+        "firs",
+        "nigeria"
+    ],
+    "support": {
+        "source": "https://github.com/linkbridge-systems/sdk-laravel",
+        "issues": "https://github.com/linkbridge-systems/sdk-laravel/issues",
+        "docs": "https://docs.linkbridge.ng"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../sdk-php",
+            "options": {
+                "symlink": false,
+                "versions": {
+                    "linkbridge/sdk-php": "0.4.0"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/contracts": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/http": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+        "linkbridge/sdk-php": "^0.4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0 || ^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^10.5 || ^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Linkbridge\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Linkbridge\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Linkbridge\\Laravel\\LinkbridgeServiceProvider"
+            ],
+            "aliases": {
+                "Linkbridge": "Linkbridge\\Laravel\\Facades\\Linkbridge"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit --testdox"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        },
+        "platform": {
+            "php": "8.3.0"
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
